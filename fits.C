@@ -15,21 +15,33 @@ void SymmetrizeTo0toPi(TH1D* h);
 void PadFor2DCorr();
 TH1D* LinearFitProjectionX(TH2D* h2, TString name, const Int_t bin1, const Int_t bin2, Bool_t UseStandardProj= kFALSE,Int_t debug=0);
 
-Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
+// Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
+Double_t binst[]={0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
+// Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
+// Double_t binst[]={0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.};
+// Double_t binst[]={1.5,2.0};
 // Double_t binst[]={1.0, 2., 1.0, 2.0, 4.0};
 const Int_t nt = sizeof(binst) / sizeof(Double_t) - 1;
 
-const Double_t binsa[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
+const Double_t binsa[]={0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
+// const Double_t binsa[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
+// const Double_t binsa[]={0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.};
+// const Double_t binsa[]={1.5,2.};
 const Int_t na = sizeof(binsa) / sizeof(Double_t) - 1;
 
 // Double_t binsV2[9] = {0.5, 0.7, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0};
 // Double_t binsV2[7] = {1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0};
-Double_t binsV2[22] = {0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
+Double_t binsV2[11] = {0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
+// Double_t binsV2[18] = {0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
+// Double_t binsV2[2] = {1.5,2.};
 
 Bool_t withAss = kFALSE;
 Bool_t sameBin = kTRUE;
+Bool_t useCentReg = kFALSE;
+Bool_t useZYAM = kFALSE;
 
-void fits(        TString species = "Pion",
+void fits(        TString species = "Proton",
+                  TString folder = "plotsEffNew",
                   TString sStyle = "CC",
                   TString sEst = "V0A",
                   Int_t c1 = 0,
@@ -37,10 +49,16 @@ void fits(        TString species = "Pion",
                   Double_t* res = NULL)
 {
 
+if(useZYAM) folder += "_ZYAM";
 
- TFile *file1 = TFile::Open(Form("Result_TPC_0_20_%s.root",species.Data()),"READ");
- TFile *file2 = TFile::Open(Form("Result_TPC_60_100_%s.root",species.Data()),"READ");
- if(!file1 || !file2) { printf("%s\n"); }
+ TFile *file1 = TFile::Open(Form("Result_TPC_eff_0_20_%s.root",species.Data()),"READ");
+ TFile *file2 = TFile::Open(Form("Result_TPC_eff_60_100_%s.root",species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("TEST_Result_TPC_eff_0_20_%s.root",species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("TEST_Result_TPC_eff_60_100_%s.root",species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("Result_TPC_0_20_%s_rf.root",species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("Result_TPC_60_100_%s_rf.root",species.Data()),"READ");
+ if(!file1 || !file2) { printf("File not open \n"); }
+
 
  gStyle->SetOptStat(0);
 
@@ -48,18 +66,22 @@ void fits(        TString species = "Pion",
  Double_t etaMax =  1.6;
  Int_t rebinDeta = 1;
  Int_t rebinDphi = 1;
+ // Float_t exclusionMin = 0.0;
+ // Float_t exclusionMax = 0.0;
  Float_t exclusionMin = -0.8;
  Float_t exclusionMax = 0.8;
 
- TH1D* hFinalV2[3] = {nullptr};
- for(Int_t p(0); p < 3; p++) hFinalV2[p] = new TH1D(Form("hFinalV2_%s_%d",species.Data(),p), "v_{2}; #it{p}_{T}; v_{2}", 21, binsV2);
- Double_t refFlow[3] = {0.0, 0.0, 0.0};
+ TH1D* hFinalV2[7] = {nullptr};
+ for(Int_t p(0); p < 7; p++) hFinalV2[p] = new TH1D(Form("hFinalV2_%s_%d",species.Data(),p), "v_{2}; #it{p}_{T}; v_{2}", 10, binsV2);
+ Double_t refFlow[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
  for(Int_t i(0); i < nt; i++){
    if(withAss && i == 1) continue;
 
+   if(i < 2) continue;
+
    for(Int_t j(0); j < na; j++){
-     if(binst[i] < binsa[j]) continue;
+     // if(binst[i] < binsa[j]) continue;
 
      if(sameBin && (binst[i] != binsa[j])) continue;
 
@@ -97,7 +119,7 @@ void fits(        TString species = "Pion",
      hist1->SetTitle(Form(";%s;%s;%s",kTitlePhi,kTitleEta,kCorrFuncTitle_Before));
      hist2->SetTitle(Form(";%s;%s;%s",kTitlePhi,kTitleEta,kCorrFuncTitle_Before));
 
-     TString arrName[3] = {textCent1, textCent2, textCentDif};
+     TString arrName[7] = {textCent1, textCent1, textCent2, textCent2, textCentDif, textCentDif, textCentDif};
 
      hist1->Rebin2D(rebinDphi,rebinDeta);
      hist2->Rebin2D(rebinDphi,rebinDeta);
@@ -124,7 +146,7 @@ void fits(        TString species = "Pion",
         latex->DrawLatex(0.80,0.93,textTrg.Data());
         latex->DrawLatex(0.80,0.86,textAss.Data());
         // gPad->Print("0_20.pdf");
-        gPad->Print(Form("plots/%s_0_20_%d_%d.pdf",species.Data(),i,j));
+        gPad->Print(Form("%s/%s_0_20_%d_%d.pdf",folder.Data(),species.Data(),i,j));
         //gPad->Print(Form("cent1%i%s",i,".pdf"));
 
         TCanvas* cCent2 = new TCanvas("cCent2","cCent2",1000,1000);
@@ -137,7 +159,7 @@ void fits(        TString species = "Pion",
         latex->DrawLatex(0.80,0.93,textTrg.Data());
         latex->DrawLatex(0.80,0.86,textAss.Data());
         // gPad->Print("60_100.pdf");
-        gPad->Print(Form("plots/%s_60_100_%d_%d.pdf",species.Data(),i,j));
+        gPad->Print(Form("%s/%s_60_100_%d_%d.pdf",folder.Data(),species.Data(),i,j));
         //gPad->Print(Form("cent2%i%s",i,".pdf"));
 
      Float_t phiBaselineMin_H = pi/2 - 0.2 + 0.0001;
@@ -159,7 +181,8 @@ void fits(        TString species = "Pion",
      baseLineE /= (binPhiBaselineMax_H - binPhiBaselineMin_H + 1) * (binEtaMax - binEtaMin + 1);
 
      Double_t baseLineE2;
-     Float_t baseLine2 = hist2->IntegralAndError(binPhiBaselineMin, binPhiBaselineMax, binEtaMin, binEtaMax, baseLineE2);
+     // Float_t baseLine2 = hist2->IntegralAndError(binPhiBaselineMin, binPhiBaselineMax, binEtaMin, binEtaMax, baseLineE2);
+     Float_t baseLine2 = hist2->IntegralAndError(binPhiBaselineMin_H, binPhiBaselineMax_H, binEtaMin, binEtaMax, baseLineE2);
      baseLine2  /= (binPhiBaselineMax - binPhiBaselineMin + 1) * (binEtaMax - binEtaMin + 1);
      baseLineE2 /= (binPhiBaselineMax - binPhiBaselineMin + 1) * (binEtaMax - binEtaMin + 1);
 
@@ -176,32 +199,97 @@ void fits(        TString species = "Pion",
      latex->DrawLatex(0.80,0.93,textTrg.Data());
      latex->DrawLatex(0.80,0.86,textAss.Data());
      // gPad->Print("subt.pdf");
-     gPad->Print(Form("plots/%s_subt_%d_%d.pdf",species.Data(),i,j));
+     gPad->Print(Form("%s/%s_subt_%d_%d.pdf",folder.Data(),species.Data(),i,j));
 
      TH1D* proj=0x0;
      TH1D* proj2=0x0;
+     TH1D* proj3=0x0;
 
      Int_t binExclusionMin  = hist1->GetYaxis()->FindBin(exclusionMin - 0.001);
      Int_t binExclusionMax  = hist1->GetYaxis()->FindBin(exclusionMax + 0.001);
 
      Double_t minPer = 0.0;
-     for(Int_t p(0); p < 3; p++){
-       if(p == 0){
-         proj  = LinearFitProjectionX(hist1,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
-         proj2 = LinearFitProjectionX(hist1,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+
+     TH2D* histClone = nullptr;
+     for(Int_t p(0); p < 7; p++){
+       if(p == 1) continue;
+       // if(p > 2) continue;
+
+       switch (p) {
+          case 0: case 1:
+            histClone = (TH2D*)hist1->Clone();
+            break;
+          case 2:
+            histClone = (TH2D*)hist2->Clone();
+            break;
+          case 3: case 4: case 5: case 6:
+            histClone = (TH2D*)histSub->Clone();
+            break;
+          default:
+            printf("**** This should NOT happen **** \n");
+            break;
        }
-       else if(p == 1){
-         proj  = LinearFitProjectionX(hist2,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
-         proj2 = LinearFitProjectionX(hist2,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+       if(!histClone) {printf("**** HistClone not found! **** \n"); return; }
+
+       proj  = LinearFitProjectionX(histClone,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
+       proj2 = LinearFitProjectionX(histClone,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+       if(useCentReg) proj3 = LinearFitProjectionX(histClone,Form("%s_proj3x", hist1->GetName()), binExclusionMin+1, binExclusionMax-1,0,-1);
+
+       // if(p == 0){
+       //   proj  = LinearFitProjectionX(hist1,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
+       //   proj2 = LinearFitProjectionX(hist1,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+       //   if(useCentReg) proj3 = LinearFitProjectionX(hist1,Form("%s_proj3x", hist1->GetName()), binExclusionMin+1, binExclusionMax-1,0,-1);
+       // }
+       // else if(p == 1){
+       //   proj  = LinearFitProjectionX(hist2,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
+       //   proj2 = LinearFitProjectionX(hist2,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+       // }
+       // else{
+       //   proj  = LinearFitProjectionX(histSub,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
+       //   proj2 = LinearFitProjectionX(histSub,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+       // }
+
+       // proj->Add(proj2, 1);
+
+       // new TCanvas();
+       // proj->Scale(1./(binExclusionMin - binEtaMin +1 ));
+       // proj->Draw();
+       // new TCanvas();
+       // proj2->Scale(1./(binEtaMax - binExclusionMax +1 ));
+       // proj2->Draw();
+       // new TCanvas();
+       // proj3->Scale(1./(binExclusionMax - binExclusionMin - 1 ));
+       // proj3->Draw();
+
+       proj->Add(proj2);
+       // proj->Add(proj3);
+
+
+       if(useCentReg){
+         proj->Add(proj3, 1);
+         Int_t binPi = hist1->GetXaxis()->FindBin(0.5*pi - 0.001);
+         for(Int_t iBin(0); iBin <= proj->GetNbinsX(); iBin++){
+           if(iBin < binPi){
+             proj->SetBinContent(iBin, proj->GetBinContent(iBin)/(binEtaMax - binExclusionMax + 1 + binExclusionMin - binEtaMin + 1));
+             proj->SetBinError(iBin, proj->GetBinError(iBin)/(binEtaMax - binExclusionMax + 1 + binExclusionMin - binEtaMin + 1));
+             // proj->SetBinContent(iBin, proj->GetBinContent(iBin)/2.);
+             // proj->SetBinError(iBin, proj->GetBinError(iBin)/2.);
+           }
+           // if(iBin < binPi) proj->SetBinContent(iBin, proj->GetBinContent(iBin)/2);
+           else{
+             proj->SetBinContent(iBin, proj->GetBinContent(iBin)/(binEtaMax - binEtaMin + 1));
+             proj->SetBinError(iBin, proj->GetBinError(iBin)/(binEtaMax - binEtaMin + 1));
+             // proj->SetBinContent(iBin, proj->GetBinContent(iBin)/3.);
+             // proj->SetBinError(iBin, proj->GetBinError(iBin)/3.);
+           }
+         }
        }
        else{
-         proj  = LinearFitProjectionX(histSub,Form("%s_proj1x", hist1->GetName()), binEtaMin, binExclusionMin,0,0);
-         proj2 = LinearFitProjectionX(histSub,Form("%s_proj2x", hist1->GetName()), binExclusionMax, binEtaMax,0,0);
+         proj->Scale(1./(binEtaMax - binExclusionMax + 1 + binExclusionMin - binEtaMin + 1));
        }
 
-       proj->Add(proj2, 1);
-       proj->Scale(1./(binEtaMax - binExclusionMax + 1 + binExclusionMin - binEtaMin + 1));
-
+       // proj->Rebin(2.);
+       // proj->Scale(1./2.);
 
        proj->SetStats(0);
        proj->GetYaxis()->SetNdivisions(505);
@@ -239,13 +327,47 @@ void fits(        TString species = "Pion",
        const Double_t* perr = vn->GetParErrors();
        Float_t min = vn->GetMinimum();
 
-       if(p < 2) {
-         baseLine2 = 0.0;
-         baseLineE2 = 0.0;
+       Float_t baseMine = 0.0;
+       Double_t baseE = 0.0;
+
+       Float_t v0val = 0.0;
+       Float_t v0err = 0.0;
+
+       v0val = pval[0];
+       v0err = perr[0];
+
+
+       switch (p) {
+          case 0: case 2: case 4:
+            v0val = pval[0];
+            v0err = perr[0];
+            break;
+          case 1: case 5:
+            v0val = baseLine;
+            v0err = baseLineE;
+            break;
+          case 3:
+            v0val = baseLine2+pval[0];
+            v0err = sqrt(baseLineE2*baseLineE2+perr[0]*perr[0]);
+            break;
+          case 6:
+            v0val = minPer+pval[0];
+            v0err = TMath::Sqrt(perr[0]*perr[0]);
+            break;
+          default:
+            printf("**** This should NOT happen **** \n");
+            break;
        }
 
-       Float_t v0val = baseLine2+pval[0];
-       Float_t v0err = TMath::Sqrt(baseLineE2*baseLineE2+perr[0]*perr[0]);
+
+       if(p == 2) minPer = pval[0];
+       // if(p == 4){
+       //   baseMine = baseLine2;
+       //   baseE = baseLineE2;
+       // }
+
+       // Float_t v0val = baseMine+pval[0];
+       // Float_t v0err = TMath::Sqrt(baseE*baseE+perr[0]*perr[0]);
 
         Float_t chi2 = vn->GetChisquare();
         Int_t ndf  = vn->GetNDF();
@@ -265,32 +387,58 @@ void fits(        TString species = "Pion",
 
         Printf("Baseline: %f +- %f; v1 = %f +- %f; v2 = %f +- %f; v3 = %f +- %f \n", baseLine, baseLineE, v1val, v1err, v2val, v2err, v3val, v3err);
 
+        Printf("\n \n \n Baseline: %f +- %f; \t a0 = %f +- %f; \t min = %f  \n", baseLine, baseLineE, pval[0], perr[0], min);
 
-        if(!sameBin && i == 0 && j == 0) {
-          // if(v2val > 0.0) refFlow[p] = sqrt(pval[2]/(pval[0]+minPer));
-          if(v2val > 0.0) refFlow[p] = sqrt(pval[2]/(min));
-          else printf(" ******** Problem with ref. flow value ******** v2: %f \n", v2val);
+        if(useZYAM){
+          //subtraction
+          TH1D* subtracted = (TH1D*)proj->Clone("subtracted");
+          for(Int_t iBin(0); iBin < subtracted->GetNbinsX()+2; iBin++){
+            subtracted->SetBinContent(iBin, subtracted->GetBinContent(iBin) - min);
+          }
+          TF1 *vnS = new TF1("vn","[0]+2*[1]*cos(1*x)+2*[2]*cos(2*x)+2*[3]*cos(3*x)",-5,5);
+          subtracted->Fit(vnS,"I0Q" ,"");
+
+          Double_t* pvalS = vnS->GetParameters();
+          const Double_t* perrS = vnS->GetParErrors();
+
+          v2val = pvalS[2]/pvalS[0];
+          v2err = v2val*sqrt(pow(perrS[0]/pvalS[0],2.)+pow(perrS[2]/pvalS[2],2.));
+
+          printf("pt: %f -- %f \n",binst[i],binst[i+1]);
+          Printf("\n\n Original fit: \n a0 = %f +- %f; \t a2 = %f +- %f; \t v2 = %f \n", pval[0], perr[0], pval[2], perr[2], pval[2]/pval[0]);
+          Printf("\n\n Subtracted fit: \n a0 = %f +- %f; \t a2 = %f +- %f; \t v2 = %f \n", pvalS[0], perrS[0], pvalS[2], perrS[2], pvalS[2]/pvalS[0]);
         }
 
-        if(withAss && i > 1){
-          hFinalV2[p]->SetBinContent(i-1, (pval[2]/(min))/refFlow[p]);
-        }
+
+        // if(!sameBin && i == 0 && j == 0) {
+        //   // if(v2val > 0.0) refFlow[p] = sqrt(pval[2]/(pval[0]+minPer));
+        //   if(v2val > 0.0) refFlow[p] = sqrt(pval[2]/(min));
+        //   else printf(" ******** Problem with ref. flow value ******** v2: %f \n", v2val);
+        // }
+        //
+        // if(withAss && i > 1){
+        //   hFinalV2[p]->SetBinContent(i-1, (pval[2]/(min))/refFlow[p]);
+        // }
 
         hFinalV2[p]->SetTitle(Form("v_{2}, %s",arrName[p].Data()));
 
         if(sameBin) {
-          if(v2val > 0.0){
-            hFinalV2[p]->SetBinContent(i+1, sqrt(v2val));
-            hFinalV2[p]->SetBinError(i+1, v2err/(2.0*sqrt(v2val)));
-          }
-          else{
-            hFinalV2[p]->SetBinContent(i+1, -10.0);
-            hFinalV2[p]->SetBinError(i+1, 1.0);
-          }
+          hFinalV2[p]->SetBinContent(i+1, v2val);
+          hFinalV2[p]->SetBinError(i+1, v2err);
+          // if(v2val > 0.0){
+          //   if(species == "Charged"){
+          //     hFinalV2[p]->SetBinContent(i+1, sqrt(v2val));
+          //     hFinalV2[p]->SetBinError(i+1, v2err/(2.0*sqrt(v2val)));
+          //   }
+          // }
+          // else{
+          //   hFinalV2[p]->SetBinContent(i+1, -10.0);
+          //   hFinalV2[p]->SetBinError(i+1, 1.0);
+          // }
         }
 
-        if(p==1) minPer = pval[0];
-        Printf("Baseline2: %f +- %f; a0 from peri: %f  \n", baseLine2, baseLineE2, minPer);
+        // if(p==1) minPer = pval[0];
+        // Printf("Baseline2: %f +- %f; a0 from peri: %f  \n", baseLine2, baseLineE2, minPer);
 
         TCanvas* c = new TCanvas("c2", "c2", 1200, 800);
           gPad->SetMargin(0.12,0.01,0.12,0.01);
@@ -328,7 +476,7 @@ void fits(        TString species = "Pion",
           latex->DrawLatex(0.3,0.72,textAss.Data());
           latex->DrawLatex(0.3,0.65,Form("%.1f < #Delta#eta < %.1f",etaMin,etaMax));
 
-          gPad->Print(Form("plots/%s_fit_%d_%d_%d.pdf",species.Data(),p,i,j));
+          gPad->Print(Form("%s/%s_fit_%d_%d_%d.pdf",folder.Data(),species.Data(),p,i,j));
 
           if (res) {
            res[0] = baseLine;
@@ -362,29 +510,41 @@ void fits(        TString species = "Pion",
    } // end i
  } // end j
 
- TFile* fout = TFile::Open(Form("plots/v2_%s.root",species.Data()),"RECREATE");
+ TFile* fout = TFile::Open(Form("%s/v2_%s.root",folder.Data(),species.Data()),"RECREATE");
 
- TFile* fInRef = TFile::Open("plots/v2_Charged.root","READ");
-
- for(Int_t p(0); p < 3; p++){
+ for(Int_t p(0); p < 7; p++){
+   if(useZYAM && p > 3) continue;
    if(species != "Charged"){
+     TFile* fInRef = TFile::Open(Form("%s/v2_Charged.root",folder.Data()),"READ");
      TH1D* hInRef = (TH1D*)fInRef->Get(Form("hFinalV2_Charged_%d",p));
      if(!hInRef) { printf("Ref flow not loaded!\n"); return; }
      if(hInRef->GetNbinsX() != hFinalV2[p]->GetNbinsX()) { printf("Dif. N of bins!\n"); return; }
      for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
-       if(hFinalV2[p]->GetBinContent(iBin) > 0.0) {
-         hInRef->SetBinContent(iBin, hInRef->GetBinContent(iBin)/hFinalV2[p]->GetBinContent(iBin));
-         // hInRef->SetBinError(iBin, hInRef->GetBinContent(iBin)/hFinalV2[p]->GetBinContent(iBin));
+       if(hInRef->GetBinContent(iBin) > 0.0) {
+         hFinalV2[p]->SetBinContent(iBin, hFinalV2[p]->GetBinContent(iBin)/hInRef->GetBinContent(iBin));
+         hFinalV2[p]->SetBinError(iBin, hFinalV2[p]->GetBinError(iBin)/hInRef->GetBinContent(iBin));
+         // hInRef->SetBinContent(iBin, hInRef->GetBinContent(iBin)/hFinalV2[p]->GetBinContent(iBin));
        }
        else{
-         hInRef->SetBinContent(iBin, -10.0);
+         hFinalV2[p]->SetBinContent(iBin, -10.0);
+       }
+     }
+   }
+   else{
+     for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
+       if(hFinalV2[p]->GetBinContent(iBin) > 0.0) {
+         hFinalV2[p]->SetBinContent(iBin, sqrt(hFinalV2[p]->GetBinContent(iBin)));
+       }
+       else{
+         hFinalV2[p]->SetBinContent(iBin, -10.0);
        }
      }
    }
    TCanvas* cV2 = new TCanvas();
    hFinalV2[p]->Draw();
+   fout->cd();
    hFinalV2[p]->Write();
-   cV2->SaveAs(Form("plots/v2_%s_%d.pdf",species.Data(),p));
+   cV2->SaveAs(Form("%s/v2_%s_%d_2.pdf",folder.Data(),species.Data(),p));
  }
 
 }
@@ -429,7 +589,15 @@ TH1D* LinearFitProjectionX(TH2D* h2, TString name, const Int_t bin1, const Int_t
    latex->SetTextAlign(11);
    latex->SetNDC();
   }
+  Int_t binPi = h2->GetXaxis()->FindBin(0.5*pi - 0.001);
+
    for (Int_t ix=1;ix<=h2->GetNbinsX();ix++) {
+    if(debug == -1 && ix < binPi){
+      h->SetBinContent(ix,0.0);
+      h->SetBinError(ix,0.0);
+      continue;
+    }
+
     TH1D* hbin = h2->ProjectionY(Form("hbin%i",ix),ix,ix);
     hbin->SetLineColor(kBlue);
     hbin->SetLineWidth(2);
@@ -469,5 +637,7 @@ TH1D* LinearFitProjectionX(TH2D* h2, TString name, const Int_t bin1, const Int_t
     delete pol;
     delete hbin;
   }
+
+
   return h;
 }
