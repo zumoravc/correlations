@@ -16,32 +16,55 @@ void PadFor2DCorr();
 TH1D* LinearFitProjectionX(TH2D* h2, TString name, const Int_t bin1, const Int_t bin2, Bool_t UseStandardProj= kFALSE,Int_t debug=0);
 
 // Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
-Double_t binst[]={0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
-// Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
-// Double_t binst[]={0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.};
-// Double_t binst[]={1.5,2.0};
-// Double_t binst[]={1.0, 2., 1.0, 2.0, 4.0};
+// Double_t binst[]={0.5,0.7,0.9,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,10.0};
+// Double_t binst[]={0.6,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
+// Double_t binst[]={0.5,0.7,0.9,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
+// Double_t binst[]={0.2,3.};
+Double_t binst[]={0.2,0.4,0.6,0.8,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.};
+// Double_t binst[]={0.2,0.5,1.0,1.5,2.0,2.5,3.0,4.0,6.0};
+// Double_t binst[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
 const Int_t nt = sizeof(binst) / sizeof(Double_t) - 1;
 
-const Double_t binsa[]={0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
+// const Double_t binsa[]={0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
+// const Double_t binsa[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
 // const Double_t binsa[]={0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
 // const Double_t binsa[]={0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.};
-// const Double_t binsa[]={1.5,2.};
+const Double_t binsa[]={0.2,3.};
 const Int_t na = sizeof(binsa) / sizeof(Double_t) - 1;
 
 // Double_t binsV2[9] = {0.5, 0.7, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0};
-// Double_t binsV2[7] = {1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0};
-Double_t binsV2[11] = {0.2,0.3,0.5,0.7,1.0,1.25,1.5,2.0,2.5,3.0,4.0};
-// Double_t binsV2[18] = {0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0};
-// Double_t binsV2[2] = {1.5,2.};
+// Double_t binsV2[2] = {0.2,3.};
+// Double_t binsV2[22] = {0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,8.0,10.0};
+// Double_t binsV2[20] = {0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
+Double_t binsV2[16] = {0.2,0.4,0.6,0.8,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.};
+// Double_t binsV2[17] = {0.5,0.6,0.7,0.9,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0,10.0};
+// Double_t binsV2[14] = {0.5,0.7,0.9,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
+// Double_t binsV2[13] = {0.6,1.0,1.25,1.5,1.75,2.0,2.25,2.5,3.0,3.5,4.0,5.0,6.0};
+// Double_t binsV2[9] = {0.2,0.5,1.0,1.5,2.0,2.5,3.0,4.0,6.0};
+
 
 Bool_t withAss = kFALSE;
-Bool_t sameBin = kTRUE;
 Bool_t useCentReg = kFALSE;
 Bool_t useZYAM = kFALSE;
 
+// Bool_t sameBin = kTRUE;
+// Bool_t useAssRef = kFALSE;
+
+Bool_t sameBin = kFALSE;
+Bool_t useAssRef = kTRUE;
+
+Bool_t doV3instead = kFALSE;
+Bool_t isPP = kFALSE;
+
+TString sysTypeArr[5] = {"_default", "_Bayes", "_FB", "_PVz", "_TPC90"};
+
 void fits(        TString species = "Proton",
-                  TString folder = "plotsEffNew",
+                  Int_t flag = 0,
+                  Int_t sample = 0,
+                  // TString folder = "pPb/gen",
+                  // TString folderREF = "pPb/gen_REF",
+                  TString folder = "plotsWithEfficiency/pp/assRef",
+                  TString folderREF = "plotsWithEfficiency/pp/REF",
                   TString sStyle = "CC",
                   TString sEst = "V0A",
                   Int_t c1 = 0,
@@ -50,13 +73,27 @@ void fits(        TString species = "Proton",
 {
 
 if(useZYAM) folder += "_ZYAM";
+Bool_t isV0 = kFALSE;
+if(species == "K0s" || species == "Lambda") isV0 = kTRUE;
 
- TFile *file1 = TFile::Open(Form("Result_TPC_eff_0_20_%s.root",species.Data()),"READ");
- TFile *file2 = TFile::Open(Form("Result_TPC_eff_60_100_%s.root",species.Data()),"READ");
- // TFile *file1 = TFile::Open(Form("TEST_Result_TPC_eff_0_20_%s.root",species.Data()),"READ");
- // TFile *file2 = TFile::Open(Form("TEST_Result_TPC_eff_60_100_%s.root",species.Data()),"READ");
- // TFile *file1 = TFile::Open(Form("Result_TPC_0_20_%s_rf.root",species.Data()),"READ");
- // TFile *file2 = TFile::Open(Form("Result_TPC_60_100_%s_rf.root",species.Data()),"READ");
+TString mcType = "gen";
+
+ TString sysType = sysTypeArr[flag];
+
+ // TFile *file1 = TFile::Open(Form("Data/Systematics/Result_TPC%s_eff_0_20_%s_assRef.root",sysType.Data(),species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("Data/Systematics/Result_TPC%s_eff_60_100_%s_assRef.root",sysType.Data(),species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("MC/Result_TPC_%s_0_20_%s_assRef.root",mcType.Data(),species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("MC/Result_TPC_%s_60_100_%s_assRef.root",mcType.Data(),species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("Data/Samples/Result_TPC_eff_0_20_%s_assRef_sample_%d.root",species.Data(),sample),"READ");
+ // TFile *file2 = TFile::Open(Form("Data/Samples/Result_TPC_eff_60_100_%s_assRef_sample_%d.root",species.Data(),sample),"READ");
+ // TFile *file1 = TFile::Open(Form("Data/Result_TPC_eff_0_20_%s_assRef.root",species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("Data/Result_TPC_eff_60_100_%s_assRef.root",species.Data()),"READ");
+ TFile *file1 = TFile::Open(Form("Data/pp/Result_TPC_eff_HM_%s_assRef.root",species.Data()),"READ");
+ TFile *file2 = TFile::Open(Form("Data/pp/Result_TPC_eff_MB_%s_assRef.root",species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("Result_TPC_0_20_%s_assRef_new.root",species.Data()),"READ");
+ // TFile *file2 = TFile::Open(Form("Result_TPC_60_100_%s_assRef_new.root",species.Data()),"READ");
+ // TFile *file1 = TFile::Open(Form("Sampling_NEW/Result_TPC_0_20_%s_sample_%d_withoutScalingJustForPlot_assRef2.root",species.Data(),sample),"READ");
+ // TFile *file2 = TFile::Open(Form("Sampling_NEW/Result_TPC_60_100_%s_sample_%d_withoutScalingJustForPlot_assRef2.root",species.Data(),sample),"READ");
  if(!file1 || !file2) { printf("File not open \n"); }
 
 
@@ -65,30 +102,41 @@ if(useZYAM) folder += "_ZYAM";
  Double_t etaMin = -1.6;
  Double_t etaMax =  1.6;
  Int_t rebinDeta = 1;
- Int_t rebinDphi = 1;
+ Int_t rebinDphi = 2;
  // Float_t exclusionMin = 0.0;
  // Float_t exclusionMax = 0.0;
  Float_t exclusionMin = -0.8;
  Float_t exclusionMax = 0.8;
+ // Float_t exclusionMin = -1.0;
+ // Float_t exclusionMax = 1.0;
 
  TH1D* hFinalV2[7] = {nullptr};
- for(Int_t p(0); p < 7; p++) hFinalV2[p] = new TH1D(Form("hFinalV2_%s_%d",species.Data(),p), "v_{2}; #it{p}_{T}; v_{2}", 10, binsV2);
+ for(Int_t p(0); p < 7; p++) hFinalV2[p] = new TH1D(Form("hFinalV2_%s_%d",species.Data(),p), "v_{2}; #it{p}_{T}; v_{2}", 15, binsV2);
  Double_t refFlow[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
+ if(isPP) c2 = 0;
 
  for(Int_t i(0); i < nt; i++){
    if(withAss && i == 1) continue;
 
-   if(i < 2) continue;
+   if(species == "Proton" && i < 1) continue;
+   if(species == "Proton" && i > 19) continue;
 
    for(Int_t j(0); j < na; j++){
      // if(binst[i] < binsa[j]) continue;
 
+     // if(i > 3) continue;
+
      if(sameBin && (binst[i] != binsa[j])) continue;
 
-     TH2D *hist1 = (TH2D*)file1->Get(Form("dphi_%d_%d_%d",i,j,c1));
+     TH2D *hist1 = nullptr;
+     if(!isV0) hist1 = (TH2D*)file1->Get(Form("dphi_%d_%d_%d",i,j,c1));
+     else  hist1 = (TH2D*)file1->Get(Form("sub_%d",i));
      hist1->SetDirectory(0);
 
-     TH2D *hist2 = (TH2D*)file2->Get(Form("dphi_%d_%d_%d",i,j,c2));
+     TH2D *hist2 = nullptr;
+     if(!isV0) hist2 = (TH2D*)file2->Get(Form("dphi_%d_%d_%d",i,j,c2));
+     else hist2 = (TH2D*)file2->Get(Form("sub_%d",i));
      hist2->SetDirectory(0);
 
      hist1->GetXaxis()->SetTitleOffset(1.6);
@@ -116,10 +164,17 @@ if(useZYAM) folder += "_ZYAM";
      TString textCent1   = Form("%s-%s", cent11.Data(),cent12.Data());
      TString textCent2   = Form("%s-%s", cent21.Data(),cent22.Data());
      TString textCentDif = Form("(%s) - (%s)", textCent1.Data(),textCent2.Data());
+     if(isPP){
+       textCent1   = "HM";
+       textCent2   = "MB";
+       textCentDif = "HM - MB";
+     }
      hist1->SetTitle(Form(";%s;%s;%s",kTitlePhi,kTitleEta,kCorrFuncTitle_Before));
      hist2->SetTitle(Form(";%s;%s;%s",kTitlePhi,kTitleEta,kCorrFuncTitle_Before));
 
      TString arrName[7] = {textCent1, textCent1, textCent2, textCent2, textCentDif, textCentDif, textCentDif};
+
+     // if(i > 14) rebinDphi = 2.;
 
      hist1->Rebin2D(rebinDphi,rebinDeta);
      hist2->Rebin2D(rebinDphi,rebinDeta);
@@ -129,7 +184,7 @@ if(useZYAM) folder += "_ZYAM";
 
      TLatex* latex = 0;
      latex = new TLatex();
-     latex->SetTextSize(0.04);
+     latex->SetTextSize(0.036);
      latex->SetTextFont(42);
      latex->SetTextAlign(21);
      latex->SetNDC();
@@ -141,12 +196,13 @@ if(useZYAM) folder += "_ZYAM";
     //    hist1->GetZaxis()->SetRangeUser(3.15,3.4);
         //    hist1->SetMaximum(1.5*hist1->GetBinContent(hist1->FindBin(3.14159,0))-0.5*hist1->GetMinimum());
         hist1->DrawCopy("surf1 FB");
-        latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+        if(!isPP) latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+        else latex->DrawLatex(0.25,0.93,"pp #sqrt{s} = 13 TeV");
         latex->DrawLatex(0.25,0.86,textCent1.Data());
-        latex->DrawLatex(0.80,0.93,textTrg.Data());
-        latex->DrawLatex(0.80,0.86,textAss.Data());
+        latex->DrawLatex(0.78,0.93,textTrg.Data());
+        latex->DrawLatex(0.78,0.86,textAss.Data());
         // gPad->Print("0_20.pdf");
-        gPad->Print(Form("%s/%s_0_20_%d_%d.pdf",folder.Data(),species.Data(),i,j));
+        gPad->Print(Form("%s/%s%s_0_20_%d_%d.pdf",folder.Data(),species.Data(),sysType.Data(),i,j));
         //gPad->Print(Form("cent1%i%s",i,".pdf"));
 
         TCanvas* cCent2 = new TCanvas("cCent2","cCent2",1000,1000);
@@ -154,12 +210,13 @@ if(useZYAM) folder += "_ZYAM";
         hist2->GetYaxis()->SetRangeUser(etaMin+0.001,etaMax-0.001);
         //    hist2->SetMaximum(1.5*hist2->GetBinContent(hist2->FindBin(3.14159,0))-0.5*hist2->GetMinimum());
         hist2->DrawCopy("surf1 FB");
-        latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+        if(!isPP) latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+        else latex->DrawLatex(0.25,0.93,"pp #sqrt{s} = 13 TeV");
         latex->DrawLatex(0.25,0.86,textCent2.Data());
-        latex->DrawLatex(0.80,0.93,textTrg.Data());
-        latex->DrawLatex(0.80,0.86,textAss.Data());
+        latex->DrawLatex(0.78,0.93,textTrg.Data());
+        latex->DrawLatex(0.78,0.86,textAss.Data());
         // gPad->Print("60_100.pdf");
-        gPad->Print(Form("%s/%s_60_100_%d_%d.pdf",folder.Data(),species.Data(),i,j));
+        gPad->Print(Form("%s/%s%s_60_100_%d_%d.pdf",folder.Data(),species.Data(),sysType.Data(),i,j));
         //gPad->Print(Form("cent2%i%s",i,".pdf"));
 
      Float_t phiBaselineMin_H = pi/2 - 0.2 + 0.0001;
@@ -194,12 +251,13 @@ if(useZYAM) folder += "_ZYAM";
      histSub->Add(hist2, -1);
      histSub->GetYaxis()->SetRangeUser(etaMin+0.001,etaMax-0.001);
      histSub->DrawCopy("surf1 FB");
-     latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+     if(!isPP) latex->DrawLatex(0.25,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+     else latex->DrawLatex(0.25,0.93,"pp #sqrt{s} = 13 TeV");
      latex->DrawLatex(0.25,0.86,textCentDif.Data());
-     latex->DrawLatex(0.80,0.93,textTrg.Data());
-     latex->DrawLatex(0.80,0.86,textAss.Data());
+     latex->DrawLatex(0.78,0.93,textTrg.Data());
+     latex->DrawLatex(0.78,0.86,textAss.Data());
      // gPad->Print("subt.pdf");
-     gPad->Print(Form("%s/%s_subt_%d_%d.pdf",folder.Data(),species.Data(),i,j));
+     gPad->Print(Form("%s/%s%s_subt_%d_%d.pdf",folder.Data(),species.Data(),sysType.Data(),i,j));
 
      TH1D* proj=0x0;
      TH1D* proj2=0x0;
@@ -213,7 +271,9 @@ if(useZYAM) folder += "_ZYAM";
      TH2D* histClone = nullptr;
      for(Int_t p(0); p < 7; p++){
        if(p == 1) continue;
-       // if(p > 2) continue;
+       if(p == 3) continue;
+       if(p == 4) continue;
+       // if(p == 6) continue;
 
        switch (p) {
           case 0: case 1:
@@ -321,11 +381,22 @@ if(useZYAM) folder += "_ZYAM";
        v3->SetLineStyle(kDashDotted);  v3->SetLineColor(kMagenta);
 
        if (gStudySystematic==k_no_v3) vn->FixParameter(3,0);
-       proj->Fit(vn,"I0Q" ,"");
+       // TFitResultPtr r = proj->Fit(vn,"I0Q" ,"");
+       TFitResultPtr r = proj->Fit(vn,"SI0" ,"");
+
+       printf(" \n\n\n Covariance matrix \n\n\n");
+       TMatrixDSym cov = r->GetCovarianceMatrix();
+       cov.Print();
+
+       printf(" \n\n\n Correlation matrix \n\n\n");
+       TMatrixDSym cor = r->GetCorrelationMatrix();
+       cor.Print();
 
        Double_t* pval = vn->GetParameters();
        const Double_t* perr = vn->GetParErrors();
        Float_t min = vn->GetMinimum();
+
+       printf("test %f \n", 1000000000*cor(0,2)*perr[0]*perr[2]);
 
        Float_t baseMine = 0.0;
        Double_t baseE = 0.0;
@@ -382,8 +453,12 @@ if(useZYAM) folder += "_ZYAM";
         Float_t v2val = pval[2]/v0val;
         Float_t v3val = pval[3]/v0val;
         Float_t v1err = v1val*sqrt(pow(v0err/v0val,2.)+pow(perr[1]/pval[1],2.));
-        Float_t v2err = v2val*sqrt(pow(v0err/v0val,2.)+pow(perr[2]/pval[2],2.));
-        Float_t v3err = v3val*sqrt(pow(v0err/v0val,2.)+pow(perr[3]/pval[3],2.));
+        // Float_t v2err = v2val*sqrt(pow(v0err/v0val,2.)+pow(perr[2]/pval[2],2.));
+        Float_t v2err = sqrt(pow(perr[2]/pval[0],2.) + pow(perr[0]*pval[2],2.)/pow(pval[0],4.) - 2.*cov(0,2)*pval[2]/pow(pval[0],3.));
+        Float_t v3err = sqrt(pow(perr[3]/pval[0],2.) + pow(perr[0]*pval[3],2.)/pow(pval[0],4.) - 2.*cov(0,3)*pval[2]/pow(pval[0],3.));
+
+        printf("Without.... %f \n", sqrt(pow(perr[2]/pval[0],2.) + pow(perr[0]*pval[2],2.)/pow(pval[0],4.)));
+        printf("Without.... %f \n", sqrt(pow(perr[2]/pval[0],2.) + pow(perr[0]*pval[2],2.)/pow(pval[0],4.) - 2.*cov(0,2)*pval[2]/pow(pval[0],3.)));
 
         Printf("Baseline: %f +- %f; v1 = %f +- %f; v2 = %f +- %f; v3 = %f +- %f \n", baseLine, baseLineE, v1val, v1err, v2val, v2err, v3val, v3err);
 
@@ -402,7 +477,8 @@ if(useZYAM) folder += "_ZYAM";
           const Double_t* perrS = vnS->GetParErrors();
 
           v2val = pvalS[2]/pvalS[0];
-          v2err = v2val*sqrt(pow(perrS[0]/pvalS[0],2.)+pow(perrS[2]/pvalS[2],2.));
+          // v2err = v2val*sqrt(pow(perrS[0]/pvalS[0],2.)+pow(perrS[2]/pvalS[2],2.));
+          v2err = sqrt(pow(perrS[2]/pvalS[0],2.) + pow(perrS[0]*pvalS[2],2.)/pow(pvalS[0],4.));
 
           printf("pt: %f -- %f \n",binst[i],binst[i+1]);
           Printf("\n\n Original fit: \n a0 = %f +- %f; \t a2 = %f +- %f; \t v2 = %f \n", pval[0], perr[0], pval[2], perr[2], pval[2]/pval[0]);
@@ -422,9 +498,13 @@ if(useZYAM) folder += "_ZYAM";
 
         hFinalV2[p]->SetTitle(Form("v_{2}, %s",arrName[p].Data()));
 
-        if(sameBin) {
+        if(sameBin || useAssRef) {
           hFinalV2[p]->SetBinContent(i+1, v2val);
           hFinalV2[p]->SetBinError(i+1, v2err);
+          if(doV3instead){
+            hFinalV2[p]->SetBinContent(i+1, v3val);
+            hFinalV2[p]->SetBinError(i+1, v3err);
+          }
           // if(v2val > 0.0){
           //   if(species == "Charged"){
           //     hFinalV2[p]->SetBinContent(i+1, sqrt(v2val));
@@ -470,13 +550,15 @@ if(useZYAM) folder += "_ZYAM";
           legend->AddEntry(bl, "Baseline", "L");
           legend->Draw();
 
-          latex->DrawLatex(0.3,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+          if(!isPP) latex->DrawLatex(0.3,0.93,"p-Pb #sqrt{s_{NN}} = 5.02 TeV");
+          else latex->DrawLatex(0.3,0.93,"pp #sqrt{s} = 13 TeV");
           latex->DrawLatex(0.3,0.86,arrName[p].Data());
           latex->DrawLatex(0.3,0.79,textTrg.Data());
           latex->DrawLatex(0.3,0.72,textAss.Data());
-          latex->DrawLatex(0.3,0.65,Form("%.1f < #Delta#eta < %.1f",etaMin,etaMax));
+          // latex->DrawLatex(0.3,0.65,Form("%.1f < #Delta#eta < %.1f",etaMin,etaMax));
+          latex->DrawLatex(0.3,0.65,Form("%.1f < |#Delta#eta| < %.1f",exclusionMax,etaMax));
 
-          gPad->Print(Form("%s/%s_fit_%d_%d_%d.pdf",folder.Data(),species.Data(),p,i,j));
+          gPad->Print(Form("%s/%s%s_fit_%d_%d_%d_sample_%d.pdf",folder.Data(),species.Data(),sysType.Data(),p,i,j,sample));
 
           if (res) {
            res[0] = baseLine;
@@ -509,42 +591,64 @@ if(useZYAM) folder += "_ZYAM";
 
    } // end i
  } // end j
+ Int_t harm = 2;
+ if(doV3instead) harm = 3;
 
- TFile* fout = TFile::Open(Form("%s/v2_%s.root",folder.Data(),species.Data()),"RECREATE");
+ TFile* fout = TFile::Open(Form("%s/v%d_%s_sample_%d.root",folder.Data(),harm,species.Data(),sample),"RECREATE");
+ // TFile* fout = TFile::Open(Form("%s/v%d_%s%s_sample_%d.root",folder.Data(),harm,species.Data(),sysType.Data(),sample),"RECREATE");
 
  for(Int_t p(0); p < 7; p++){
    if(useZYAM && p > 3) continue;
-   if(species != "Charged"){
-     TFile* fInRef = TFile::Open(Form("%s/v2_Charged.root",folder.Data()),"READ");
+
+   if(useAssRef){
+     TFile* fInRef = TFile::Open(Form("%s/v%d_Charged_sample_%d.root",folderREF.Data(),harm,sample),"READ");
+     // TFile* fInRef = TFile::Open(Form("%s/v%d_Charged%s_sample_%d.root",folderREF.Data(),harm,sysType.Data(),sample),"READ");
      TH1D* hInRef = (TH1D*)fInRef->Get(Form("hFinalV2_Charged_%d",p));
-     if(!hInRef) { printf("Ref flow not loaded!\n"); return; }
-     if(hInRef->GetNbinsX() != hFinalV2[p]->GetNbinsX()) { printf("Dif. N of bins!\n"); return; }
-     for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
-       if(hInRef->GetBinContent(iBin) > 0.0) {
-         hFinalV2[p]->SetBinContent(iBin, hFinalV2[p]->GetBinContent(iBin)/hInRef->GetBinContent(iBin));
-         hFinalV2[p]->SetBinError(iBin, hFinalV2[p]->GetBinError(iBin)/hInRef->GetBinContent(iBin));
-         // hInRef->SetBinContent(iBin, hInRef->GetBinContent(iBin)/hFinalV2[p]->GetBinContent(iBin));
-       }
-       else{
-         hFinalV2[p]->SetBinContent(iBin, -10.0);
-       }
-     }
+      if(!hInRef) { printf("Ref flow not loaded!\n"); return; }
+      Double_t refContent = hInRef->GetBinContent(1);
+      Double_t refError = hInRef->GetBinError(1);
+      for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
+        hFinalV2[p]->SetBinContent(iBin, hFinalV2[p]->GetBinContent(iBin)/refContent);
+        hFinalV2[p]->SetBinError(iBin, sqrt( pow(hFinalV2[p]->GetBinError(iBin)/refContent,2.) +  pow(refError*hFinalV2[p]->GetBinContent(iBin),2.)/pow(refContent,4.) ) );
+      }
    }
    else{
-     for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
-       if(hFinalV2[p]->GetBinContent(iBin) > 0.0) {
-         hFinalV2[p]->SetBinContent(iBin, sqrt(hFinalV2[p]->GetBinContent(iBin)));
+     if(species != "Charged"){
+       TFile* fInRef = TFile::Open(Form("%s/v%d_Charged.root",folder.Data(),harm),"READ");
+       TH1D* hInRef = (TH1D*)fInRef->Get(Form("hFinalV2_Charged_%d",p));
+       if(!hInRef) { printf("Ref flow not loaded!\n"); return; }
+       if(hInRef->GetNbinsX() != hFinalV2[p]->GetNbinsX()) { printf("Dif. N of bins!\n"); return; }
+       for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
+         if(hInRef->GetBinContent(iBin) > 0.0) {
+           Double_t refContent = hInRef->GetBinContent(iBin);
+           Double_t refError = hInRef->GetBinError(iBin);
+           hFinalV2[p]->SetBinContent(iBin, hFinalV2[p]->GetBinContent(iBin)/refContent);
+           hFinalV2[p]->SetBinError(iBin, sqrt( pow(hFinalV2[p]->GetBinError(iBin)/refContent,2.) +  pow(refError*hFinalV2[p]->GetBinContent(iBin),2.)/pow(refContent,4.) ) );
+           // hInRef->SetBinContent(iBin, hInRef->GetBinContent(iBin)/hFinalV2[p]->GetBinContent(iBin));
+         }
+         else{
+           hFinalV2[p]->SetBinContent(iBin, -10.0);
+         }
        }
-       else{
-         hFinalV2[p]->SetBinContent(iBin, -10.0);
+     }
+     else{
+       for(Int_t iBin(0); iBin < hFinalV2[p]->GetNbinsX()+2; iBin++){
+         if(hFinalV2[p]->GetBinContent(iBin) >  0.0) {
+           hFinalV2[p]->SetBinContent(iBin, sqrt(hFinalV2[p]->GetBinContent(iBin)));
+           hFinalV2[p]->SetBinError(iBin, sqrt(pow(hFinalV2[p]->GetBinError(iBin),2.)/hFinalV2[p]->GetBinContent(iBin))/2.);
+         }
+         else{
+           hFinalV2[p]->SetBinContent(iBin, -10.0);
+         }
        }
      }
    }
+
    TCanvas* cV2 = new TCanvas();
    hFinalV2[p]->Draw();
    fout->cd();
    hFinalV2[p]->Write();
-   cV2->SaveAs(Form("%s/v2_%s_%d_2.pdf",folder.Data(),species.Data(),p));
+   cV2->SaveAs(Form("%s/v%d_%s%s_%d_sample_%d.pdf",folder.Data(),harm,species.Data(),sysType.Data(),p,sample));
  }
 
 }
